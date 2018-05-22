@@ -16,7 +16,7 @@ node {
     }
 
     stage('Build'){
-        "mvn clean install"
+       bat "mvn clean install"
     }
 
     stage('Sonar'){
