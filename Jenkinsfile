@@ -1,4 +1,6 @@
-node{
+pipeline{
+    agent any
+    stages{
 stage('Initialize'){
     def dockerHome = tool 'MyDocker'
     def mavenHome  = tool 'MyMaven'
@@ -9,4 +11,5 @@ stage('Push to Docker Registry'){
         pushToImage(CONTAINER_NAME, CONTAINER_TAG, USERNAME, PASSWORD)
     }
 }
+    }
 }
