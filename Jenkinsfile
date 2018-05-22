@@ -4,7 +4,7 @@ def DOCKER_HUB_USER="rajugade"
 def HTTP_PORT="8090"
 
 node {
-    stages{
+
     stage('Initialize'){
         def dockerHome = tool 'MyDocker'
         def mavenHome  = tool 'MyMaven'
@@ -44,7 +44,7 @@ node {
     stage('Run App'){
         runApp(CONTAINER_NAME, CONTAINER_TAG, DOCKER_HUB_USER, HTTP_PORT)
     }
-    }
+    
 
 }
 
