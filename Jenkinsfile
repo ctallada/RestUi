@@ -1,3 +1,4 @@
+node{
 stage('Initialize'){
     def dockerHome = tool 'MyDocker'
     def mavenHome  = tool 'MyMaven'
