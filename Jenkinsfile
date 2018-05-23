@@ -1,4 +1,4 @@
-def CONTAINER_NAME="sample"
+def CONTAINER_NAME="ositest"
 def CONTAINER_TAG="latest"
 def DOCKER_HUB_USER="rajugade"
 def HTTP_PORT="8090"
