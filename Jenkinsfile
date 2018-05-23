@@ -56,6 +56,7 @@ def imagePrune(containerName){
 }
 
 def imageBuild(containerName, tag){
+    bat "cd SpringKube"
     bat "docker build -t $containerName:$tag  -t $containerName --pull --no-cache ."
     echo "Image build complete"
 }
