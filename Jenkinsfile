@@ -51,7 +51,7 @@ node {
 def imagePrune(containerName){
     try {
        bat "docker image prune -f"
-       bat "docker stop $containerName"
+       //bat "docker stop $containerName"
     } catch(error){}
 }
 
