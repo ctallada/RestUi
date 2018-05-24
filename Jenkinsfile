@@ -27,7 +27,7 @@ node {
      }*/
 
     stage("Image Prune"){
-        imagePrune(CONTAINER_NAME)
+        //imagePrune(CONTAINER_NAME)
     }
 
     stage('Image Build'){
@@ -52,13 +52,13 @@ node {
 
 def imagePrune(containerName){
     try {
-       sh "docker image prune -f"
+       sh "sudo docker image prune -f"
        //bat "docker stop $containerName"
     } catch(error){}
 }
 
 def imageBuild(containerName, tag){
-    sh "cd SpringKube"
+    
     sh "docker build -t $containerName:$tag  -t $containerName --pull --no-cache ."
     echo "Image build complete"
 }
