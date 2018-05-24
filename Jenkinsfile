@@ -1,80 +1,66 @@
-def CONTAINER_NAME="ositest"
-def CONTAINER_TAG="latest"
-def DOCKER_HUB_USER="rajugade"
-def HTTP_PORT="8099"
+def label = "worker-${UUID.randomUUID().toString()}"
 
-node {
-
-   /* stage('Initialize'){
-        def dockerHome = tool 'MyDocker'
-        def mavenHome  = tool 'MyMaven'
-        env.PATH = "${dockerHome}/bin:${mavenHome}/bin:${env.PATH}"
-    }*/
-
-    stage('Checkout') {
-        checkout scm
-    }
-
-   /* stage('Build'){
-       bat "mvn clean install"
-    }
-
-    stage('Sonar'){
-        try {
-            "mvn sonar:sonar"
-        } catch(error){
-            echo "The sonar server could not be reached ${error}"
+podTemplate(label: label, containers: [
+  containerTemplate(name: 'gradle', image: 'gradle:4.5.1-jdk9', command: 'cat', ttyEnabled: true),
+  containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true),
+  containerTemplate(name: 'kubectl', image: 'lachlanevenson/k8s-kubectl:v1.8.8', command: 'cat', ttyEnabled: true),
+  containerTemplate(name: 'helm', image: 'lachlanevenson/k8s-helm:latest', command: 'cat', ttyEnabled: true)
+],
+volumes: [
+  hostPathVolume(mountPath: '/home/gradle/.gradle', hostPath: '/tmp/jenkins/.gradle'),
+  hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock')
+]) {
+  node(label) {
+    def myRepo = checkout scm
+    def gitCommit = myRepo.GIT_COMMIT
+    def gitBranch = myRepo.GIT_BRANCH
+    def shortGitCommit = "${gitCommit[0..10]}"
+    def previousGitCommit = sh(script: "git rev-parse ${gitCommit}~", returnStdout: true)
+ 
+    stage('Test') {
+      try {
+        container('gradle') {
+          sh """
+            pwd
+            echo "GIT_BRANCH=${gitBranch}" >> /etc/environment
+            echo "GIT_COMMIT=${gitCommit}" >> /etc/environment
+            gradle test
+            """
         }
-     }*/
-
-    stage("Image Prune"){
-        imagePrune(CONTAINER_NAME)
+      }
+      catch (exc) {
+        println "Failed to test - ${currentBuild.fullDisplayName}"
+        throw(exc)
+      }
     }
-
-    stage('Image Build'){
-        imageBuild(CONTAINER_NAME, CONTAINER_TAG)
+    stage('Build') {
+      container('gradle') {
+        sh "gradle build"
+      }
     }
-
-    stage('Push to Docker Registry'){
-        withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-            pushToImage(CONTAINER_NAME, CONTAINER_TAG, USERNAME, PASSWORD)
+    stage('Create Docker images') {
+      container('docker') {
+        withCredentials([[$class: 'UsernamePasswordMultiBinding',
+          credentialsId: 'dockerhub',
+          usernameVariable: 'DOCKER_HUB_USER',
+          passwordVariable: 'DOCKER_HUB_PASSWORD']]) {
+          sh """
+            docker login -u ${DOCKER_HUB_USER} -p ${DOCKER_HUB_PASSWORD}
+            docker build -t namespace/my-image:${gitCommit} .
+            docker push namespace/my-image:${gitCommit}
+            """
         }
+      }
     }
-
-    /*stage('Run App'){
-        runApp(CONTAINER_NAME, CONTAINER_TAG, DOCKER_HUB_USER, HTTP_PORT)
-    }*/
-   
-   stage('Deploy on kubernetes'){
-        echo "deployed"
+    stage('Run kubectl') {
+      container('kubectl') {
+        sh "kubectl get pods"
+      }
     }
-    
-
-}
-
-def imagePrune(containerName){
-    try {
-       sh "minikube ssh"
-       sh "docker image prune -f"
-       //bat "docker stop $containerName"
-    } catch(error){}
-}
-
-def imageBuild(containerName, tag){
-    //sh "cd SpringKube"
-    sh "docker build -t $containerName:$tag  -t $containerName --pull --no-cache ."
-    echo "Image build complete"
-}
-
-def pushToImage(containerName, tag, dockerUser, dockerPassword){
-    sh "docker login -u $dockerUser -p $dockerPassword"
-    sh "docker tag $containerName:$tag $dockerUser/$containerName:$tag"
-    sh "docker push $dockerUser/$containerName:$tag"
-    echo "Image push complete"
-}
-
-def runApp(containerName, tag, dockerHubUser, httpPort){
-    sh "docker pull $dockerHubUser/$containerName"
-    sh "docker run -d --rm -p $httpPort:$httpPort --name $containerName $dockerHubUser/$containerName:$tag"
-    echo "Application started on port: ${httpPort} (http)"
+    stage('Run helm') {
+      container('helm') {
+        sh "helm list"
+      }
+    }
+  }
 }
