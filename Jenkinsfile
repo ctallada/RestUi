@@ -38,6 +38,9 @@ node {
         withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
             pushToImage(CONTAINER_NAME, CONTAINER_TAG, USERNAME, PASSWORD)
         }
+       stage('Deploy'){
+            deployKube()
+        }
     }
 
     /*stage('Run App'){
