@@ -38,7 +38,7 @@ spec:
         app:restuiapi
 spec:
   containers:
-  - image: docker.io/chetant/restappone
+  - image: docker.io/chetant/restapptwo
     name: war
     volumeMounts:
     - mountPath: /app
@@ -50,29 +50,7 @@ spec:
     - mountPath: /usr/local/tomcat/webapps
       name: app-volume
     ports:
-    - containerPort: 8181
-      hostPort: 8181
+    - containerPort: 8282
+      hostPort: 8282
   volumes:
   - name: app-volume
----
-kind: Service
-apiVersion: v1
-metadata:
-  name: javaweb
-spec:
-  type: LoadBalancer
-  ports:
-    - port: 8080
-  selector:
-    name: javaweb
----
-kind: Service
-apiVersion: v1
-metadata:
-  name: restuiapi
-spec:
-  type: LoadBalancer
-  ports:
-    - port: 8181
-  selector:
-    name: restuiapi
