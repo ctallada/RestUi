@@ -9,7 +9,7 @@ spec:
         app:javaweb
 spec:
   containers:
-  - image: docker.io/chetant/restappone
+  - image: docker.io/chetant/restappui
     name: war
     volumeMounts:
     - mountPath: /app
@@ -38,7 +38,7 @@ spec:
         app:restuiapi
 spec:
   containers:
-  - image: docker.io/chetant/restappone
+  - image: docker.io/chetant/restappui
     name: war
     volumeMounts:
     - mountPath: /app
@@ -54,4 +54,26 @@ spec:
       hostPort: 8181
   volumes:
   - name: app-volume
-    emptyDir: {}
+emptyDir: {}
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: javaweb
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 8080
+  selector:
+    name: javaweb
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: restuiapi
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 8181
+  selector:
+    name: restuiapi
