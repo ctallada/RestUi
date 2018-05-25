@@ -9,7 +9,7 @@ spec:
         app:javaweb
 spec:
   containers:
-  - image: docker.io/chetant/restUiApp
+  - image: docker.io/chetant/restappui
     name: war
     volumeMounts:
     - mountPath: /app
