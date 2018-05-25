@@ -83,6 +83,6 @@ def deployKube(){
      //   sh "kubectl run restname --image=docker.io/chetant/ositest:latest --port=8080"
      //   sh "kubectl get deployments"
      //   sh "kubectl expose deployment restname --type=NodePort"
-   sh "kubectl apply -f Pod/"
+   sh "kubectl apply -f Pod/*.yaml"
   
 }
