@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: javaweb
+spec:
+  templates:
+    metadata:
+      labels:
+        app:javaweb
+spec:
+  containers:
+  - image: docker.io/chetant/restUiApp
+    name: war
+    volumeMounts:
+    - mountPath: /app
+      name: app-volume
+  - image: tomcat
+    name: javaweb
+    command: [ "/usr/local/tomcat/bin/startup.sh", "run"]
+    volumeMounts:
+    - mountPath: /usr/local/tomcat/webapps
+      name: app-volume
+    ports:
+    - containerPort: 8181
+      hostPort: 8181
+  volumes:
+  - name: app-volume
+    emptyDir: {}
+
+
