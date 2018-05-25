@@ -9,7 +9,7 @@ spec:
         app:javaweb
 spec:
   containers:
-  - image: docker.io/chetant/restappui
+  - image: docker.io/chetant/ositest
     name: war
     volumeMounts:
     - mountPath: /app
@@ -38,7 +38,7 @@ spec:
         app:restuiapi
 spec:
   containers:
-  - image: docker.io/chetant/restappui
+  - image: docker.io/chetant/ositest
     name: war
     volumeMounts:
     - mountPath: /app
