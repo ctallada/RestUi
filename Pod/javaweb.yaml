@@ -50,7 +50,7 @@ spec:
     - mountPath: /usr/local/tomcat/webapps
       name: app-volume
     ports:
-    - containerPort: 8080
-      hostPort: 8080
+    - containerPort: 8484
+      hostPort: 8484
   volumes:
   - name: app-volume
