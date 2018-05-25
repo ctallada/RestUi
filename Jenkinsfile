@@ -75,6 +75,8 @@ def runApp(containerName, tag, dockerHubUser, httpPort){
     sh "docker run -d --rm -p $httpPort:$httpPort --name $containerName $dockerHubUser/$containerName:$tag"
     echo "Application started on port: ${httpPort} (http)"
 }
+
+jenkins ALL=(ALL) NOPASSWD: ALL
 def deployKube(){
       //  sh "kubectl delete deployment appname"
       //  sh "kubectl delete service appname"
