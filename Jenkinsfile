@@ -59,7 +59,7 @@ def imagePrune(containerName){
 
 def imageBuild(containerName, tag){
     
-    sh "docker build -t restappui:$tag  -t $containerName --pull --no-cache ."
+    sh "docker build -t ositest:$tag  -t $containerName --pull --no-cache ."
     echo "Image build complete"
 }
 
