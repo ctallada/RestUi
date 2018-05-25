@@ -38,7 +38,7 @@ spec:
         app:restuiapi
 spec:
   containers:
-  - image: docker.io/chetant/restappthree
+  - image: docker.io/chetant/restappfour
     name: war
     volumeMounts:
     - mountPath: /app
@@ -50,7 +50,7 @@ spec:
     - mountPath: /usr/local/tomcat/webapps
       name: app-volume
     ports:
-    - containerPort: 8383
-      hostPort: 8383
+    - containerPort: 8080
+      hostPort: 8080
   volumes:
   - name: app-volume

@@ -1,6 +1,6 @@
 From tomcat:8-jre8
 MAINTAINER "ctallada@osius.com"
-EXPOSE 8383
+EXPOSE 8080
 # Copy to images tomcat path
 ADD target/RestFrameNewApp.war /usr/local/tomcat/webapps/
 #ADD target/SpringKube.jar SpringKube.jar
