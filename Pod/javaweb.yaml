@@ -54,7 +54,6 @@ spec:
       hostPort: 8181
   volumes:
   - name: app-volume
-emptyDir: {}
 ---
 kind: Service
 apiVersion: v1
