@@ -59,7 +59,7 @@ def imagePrune(containerName){
 
 def imageBuild(containerName, tag){
     
-    sh "docker build -t $containerName:$tag  -t $containerName --pull --no-cache ."
+    sh "docker build -t restappui:$tag  -t $containerName --pull --no-cache ."
     echo "Image build complete"
 }
 
@@ -80,9 +80,9 @@ def runApp(containerName, tag, dockerHubUser, httpPort){
 def deployKube(){
       //  sh "kubectl delete deployment restname"
       //  sh "kubectl delete service restname"
-      //  sh "kubectl run restname --image=docker.io/chetant/ositest:latest --port=8080"
-      //  sh "kubectl get deployments"
-       // sh "kubectl expose deployment restname --type=NodePort"
-   sh "kubectl run appnameone --image=docker.io/chetant/ositest:latest --port=8080"
+     //   sh "kubectl run restname --image=docker.io/chetant/ositest:latest --port=8080"
+     //   sh "kubectl get deployments"
+     //   sh "kubectl expose deployment restname --type=NodePort"
+   sh "kubectl create -f Pod/*.yaml"
   
 }
