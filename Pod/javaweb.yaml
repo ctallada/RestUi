@@ -30,12 +30,12 @@ spec:
 apiVersion: v1
 kind: Pod
 metadata:
-  name: javaweb
+  name: restuiapi
 spec:
   templates:
     metadata:
       labels:
-        app:javaweb
+        app:restuiapi
 spec:
   containers:
   - image: docker.io/chetant/restUiApp
@@ -44,7 +44,7 @@ spec:
     - mountPath: /app
       name: app-volume
   - image: tomcat
-    name: javaweb
+    name: restuiapi
     command: [ "/usr/local/tomcat/bin/startup.sh", "run"]
     volumeMounts:
     - mountPath: /usr/local/tomcat/webapps
