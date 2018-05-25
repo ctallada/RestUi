@@ -76,8 +76,8 @@ def runApp(containerName, tag, dockerHubUser, httpPort){
     echo "Application started on port: ${httpPort} (http)"
 }
 def deployKube(){
-        sh "kubectl delete deployment appname"
-        sh "kubectl delete service appname"
+      //  sh "kubectl delete deployment appname"
+      //  sh "kubectl delete service appname"
         sh "kubectl run appname --image=docker.io/rajugade/ositest:latest --port=8080"
         sh "kubectl get deployments"
         sh "kubectl expose deployment appname --type=NodePort"
