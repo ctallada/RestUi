@@ -1,6 +1,6 @@
 def CONTAINER_NAME="ositest"
 def CONTAINER_TAG="latest"
-def DOCKER_HUB_USER="rajugade"
+def DOCKER_HUB_USER="chetant"
 def HTTP_PORT="8099"
 
 node {
@@ -64,7 +64,7 @@ def imageBuild(containerName, tag){
 }
 
 def pushToImage(containerName, tag, dockerUser, dockerPassword){
-    sh "docker login -u $dockerUser -e raju.g1233@gmail.com -p $dockerPassword"
+    sh "docker login -u $dockerUser -e chetanchetant@gmail.com -p $dockerPassword"
     sh "docker tag $containerName:$tag $dockerUser/$containerName:$tag"
     sh "docker push $dockerUser/$containerName:$tag"
     echo "Image push complete"
