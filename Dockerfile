@@ -6,5 +6,3 @@ ADD target/RestFrameNewApp.war /usr/local/tomcat/webapps/
 #ADD target/SpringKube.jar SpringKube.jar
 #ENTRYPOINT ["java","-jar","SpringKube.jar"]
 CMD ["catalina.sh", "run"]
- 
-

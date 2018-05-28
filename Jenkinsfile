@@ -59,14 +59,14 @@ def imagePrune(containerName){
 
 def imageBuild(containerName, tag){
     
-    sh "docker build -t restappfour:$tag  -t $containerName --pull --no-cache ."
+    sh "docker build -t restappuiimage:$tag  -t $containerName --pull --no-cache ."
     echo "Image build complete"
 }
 
 def pushToImage(containerName, tag, dockerUser, dockerPassword){
     sh "docker login -u $dockerUser -e chetanchetant@gmail.com -p $dockerPassword"
-    sh "docker tag restappfour:$tag $dockerUser/restappfour:$tag"
-    sh "docker push $dockerUser/restappfour:$tag"
+    sh "docker tag restappuiimage:$tag $dockerUser/restappuiimage:$tag"
+    sh "docker push $dockerUser/restappuiimage:$tag"
     echo "Image push complete"
 }
 
