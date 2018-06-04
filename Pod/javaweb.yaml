@@ -21,8 +21,13 @@ spec:
     - mountPath: /usr/local/tomcat/webapps
       name: app-volume
     ports:
+    - name: liveness-port
     - containerPort: 8080
       hostPort: 8080
+    livenessProbe:
+    httpGet:
+       path: /healthz
+       port: liveness-port  
   volumes:
   - name: app-volume
     emptyDir: {}
