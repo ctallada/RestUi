@@ -20,9 +20,9 @@ spec:
     volumeMounts:
     - mountPath: /usr/local/tomcat/webapps
       name: app-volume
-ports:
+    ports:
     - containerPort: 8080
       hostPort: 8080
   volumes:
   - name: app-volume
-    emptyDir: {}
+emptyDir: {}
