@@ -9,6 +9,19 @@ spec:
         app:restappui
 spec:
   containers:
+  - image: k8s.gcr.io/liveness
+    name: liveness
+    args:
+    - /server
+    livenessProbe:
+      httpGet:
+        path: /healthz
+        port: 8080
+        httpHeaders:
+        - name: X-Custom-Header
+          value: Awesome
+      initialDelaySeconds: 3
+      periodSeconds: 3
   - image: docker.io/chetant/restappuiimage
     name: war
     volumeMounts:
@@ -21,13 +34,8 @@ spec:
     - mountPath: /usr/local/tomcat/webapps
       name: app-volume
     ports:
-    - name: liveness-port
     - containerPort: 8080
       hostPort: 8080
-    livenessProbe:
-    httpGet:
-       path: /healthz
-       port: liveness-port  
   volumes:
   - name: app-volume
     emptyDir: {}
