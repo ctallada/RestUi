@@ -17,15 +17,15 @@ spec:
   - image: tomcat
     name: restappui
     command: [ "/usr/local/tomcat/bin/startup.sh", "run"]
-    livenessProbe:
-      tcpSocket:
-        Port: 8080
     volumeMounts:
     - mountPath: /usr/local/tomcat/webapps
       name: app-volume
 ports:
     - containerPort: 8080
       hostPort: 8080
+livenessProbe:
+      tcpSocket:
+        Port: 8080
   volumes:
   - name: app-volume
     emptyDir: {}
