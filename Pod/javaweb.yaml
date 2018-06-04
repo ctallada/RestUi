@@ -25,3 +25,4 @@ spec:
       hostPort: 8080
   volumes:
   - name: app-volume
+    emptyDir: {}
