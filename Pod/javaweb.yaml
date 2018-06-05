@@ -9,19 +9,6 @@ spec:
         app:restappui
 spec:
   containers:
-  - image: k8s.gcr.io/liveness
-    name: liveness
-    args:
-    - /server
-    livenessProbe:
-      httpGet:
-        path: /RestFrameNewApp/feature
-        port: 8080
-        httpHeaders:
-        - name: X-Custom-Header
-          value: Awesome
-      initialDelaySeconds: 3
-      periodSeconds: 3
   - image: docker.io/chetant/restappuiimage
     name: war
     volumeMounts:
@@ -36,6 +23,19 @@ spec:
     ports:
     - containerPort: 8080
       hostPort: 8080
+  - image: k8s.gcr.io/liveness
+    name: liveness
+    args:
+    - /server
+    livenessProbe:
+      httpGet:
+        path: /RestFrameNewApp/feature
+        port: 8080
+        httpHeaders:
+        - name: X-Custom-Header
+          value: Awesome
+      initialDelaySeconds: 3
+      periodSeconds: 3
   volumes:
   - name: app-volume
     emptyDir: {}
