@@ -15,7 +15,7 @@ spec:
     - /server
     livenessProbe:
       httpGet:
-        path: /healthz
+        path: /RestFrameNewApp/feature
         port: 8080
         httpHeaders:
         - name: X-Custom-Header
