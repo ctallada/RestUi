@@ -5,4 +5,4 @@ EXPOSE 8080
 ADD target/RestFrameNewApp.war /usr/local/tomcat/webapps/
 #ADD target/SpringKube.jar SpringKube.jar
 #ENTRYPOINT ["java","-jar","SpringKube.jar"]
-CMD ["catalina.sh", "run"]
+CMD ["catalina.sh -c trap : TERM INT; sleep infinity & wait", "run"]
