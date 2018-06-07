@@ -16,7 +16,7 @@ spec:
       name: app-volume
   - image: tomcat
     name: restappui
-    command: [ "/usr/local/tomcat/bin/startup.sh", "-c", "--" , "run"]
+    command: [ "/usr/local/tomcat/bin/startup.sh", "run"]
     args: [ "while true; do sleep 30; done;" ]
     volumeMounts:
     - mountPath: /usr/local/tomcat/webapps
